@@ -17,6 +17,9 @@
 (set-keyboard-coding-system 'utf-8-unix)
 (set-terminal-coding-system 'utf-8-unix)
 
+;; Prevent dired from opening so many buffers
+(setf dired-kill-when-opening-new-dired-buffer t)
+
 (setq make-backup-files nil); stop creating ~ files
 
 (setq-default indent-tabs-mode nil)
@@ -56,6 +59,21 @@
 ;; svelte-mode
 (add-to-list 'load-path "~/svelte-mode")
 (require 'svelte-mode)
+
+;; Melpa
+(require 'package)
+
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+
+(package-initialize)
+
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+;; Cider
+(unless (package-installed-p 'cider)
+  (package-install 'cider))
 
 ;; Show Trailing Whitespaces
 (require 'whitespace)
